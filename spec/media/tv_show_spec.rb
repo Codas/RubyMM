@@ -7,18 +7,17 @@ describe Media::TVShow do
 	end
 
 
-	context "creating new shows and episodes" do
+	describe "creating new shows and episodes" do
 		it "should create a new TV Show" do
-			show= Media::TVShow.new @show_hash
-			show.name.should == @show_hash[:name].downcase
-			show.display_name.should == @show_hash[:name]
+			show = Media::TVShow.new @show_hash
+			show.name.downcase.should == @show_hash[:name].downcase
 		end
 
 		it "should create a new episode" do
 			h = { :season => 3, :episode => 8}
-			ep = Media::Episode.new @show_hash
-			ep.season.should == @show_hash[:season]
-			ep.episode.should == @show_hash[:episode]
+			ep = Media::Episode.new @episode_hash
+			ep.season.should == @episode_hash[:season]
+			ep.episode.should == @episode_hash[:episode]
 		end
 
 		it "should be possible to add Episodes to a TVShow" do

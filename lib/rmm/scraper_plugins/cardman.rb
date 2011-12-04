@@ -3,8 +3,12 @@ module Scraper
 		# All constans are only used to keep all the regexes in one nice place
 		# they don't fulfill any greater goal or are needed for anything
 		# outside this class or file
+		# FIXME: constants should not really be used here, make them methods
+		#		or something like that.
 
 		PARADOX_PRINT_LINK = "http://tehparadox.com/forum/printthread.php?t="
+
+		SOURCES = %w[blu-ray bluray web-dl hdtv dvd dvdrip hdrip]
 
 		TV_SHOW_PATTERN = /
 			^ .*\/f73\/
@@ -30,7 +34,7 @@ module Scraper
 
 		APPLICATION_PATTERN = /^.*\/f51\/ (.*) - (\d+) \//ix
 
-		OTHERS_PATTERN = /^.*\/f73\/ (.*) - ([^-]+) - (\d+) \//ix
+		OTHERS_PATTERN = /^.*\/f73\/ (.*) - (\d+) \//ix
 
 		GAMES_PATTERN = /^.*\/f43\/ (.*) - ([^-]+) - (\d+) \//ix
 
@@ -46,7 +50,9 @@ module Scraper
 
 		# prepare data for inserting into TVShow and Episode objects
 		def tv_show_items(data)
+			source = nil
 			data.map { |x| x.match TV_SHOW_PATTERN}.compact.map do |item|
+				source = item[0][/#{SOURCES.join('|')}/ix]
 				item = {
 					:info => {
 						:name => item[1].split('-').map{ |e| e.capitalize }.join(' '),
@@ -81,7 +87,9 @@ module Scraper
 
 		# prepare data for inserting into Movie object
 		def movie_items(data)
+			source = nil
 			data.map { |x| x.match MOVIES_PATTERN}.compact.map do |item|
+				source = item[0][/#{SOURCES.join('|')}/ix]
 				item = {
 					:info => {
 						:name => item[1].split('-').map{ |e| e.capitalize }.join(' '),
@@ -89,7 +97,7 @@ module Scraper
 					},
 					:ressource => {
 						:resolution => item[3],
-						:source     => item[4],
+						:source     => source || item[4],
 						:url        => PARADOX_PRINT_LINK + item[5]
 					}
 				}
@@ -111,7 +119,7 @@ module Scraper
 		end
 
 		# prepare data for inserting into Others object
-		def others_items(data)
+		def other_items(data)
 			others = data.select { |x| x !~ TV_SHOW_PATTERN and x =~ /\/f73\// }
 			others.map { |x| x.match OTHERS_PATTERN}.compact.map do |item|
 				item = {
@@ -119,7 +127,7 @@ module Scraper
 						:name => item[1].split('-').map{ |e| e.capitalize }.join(' '),
 					},
 					:ressource => {
-						:url        => PARADOX_PRINT_LINK + item[2]
+						:url => PARADOX_PRINT_LINK + item[2]
 					}
 				}
 			end

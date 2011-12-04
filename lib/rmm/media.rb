@@ -25,11 +25,19 @@ module Media
 			params.each do |k, v|
 				self.send("#{k}=".to_sym, v)
 			end
+			self.name.strip!
 			self
 		end
 
-		def episode(s, e)
-			nil
+		def episode(s, e = nil)
+			if s.class == String and (res = s.match /s(\d+)e|\.|-(\d+)/i)
+				id = [res[1].to_i, res[2].to_i]
+			elsif s.class == Hash and s[:season] and s[:episode]
+				id = [s[:season].to_i, s[:episode].to_i]
+			else
+				id = [s.to_i, e.to_i]
+			end
+			self.episodes.select{|e|e.season == id[0] and e.episode == id[1]}.first
 		end
 
 		def episodes
@@ -42,7 +50,7 @@ module Media
 		end
 
 		def cmp_by_hash(hash)
-			self.name.downcase == hash[:name].downcase
+			self.name.downcase == hash[:name].downcase.strip
 		end
 
 		private
@@ -81,7 +89,7 @@ module Media
 		end
 
 		def cmp_by_hash(hash)
-			self.name.downcase == hash[:name].downcase and
+			self.name.downcase == hash[:name].downcase.strip and
 				self.year == hash[:year].to_i
 		end
 
@@ -101,6 +109,10 @@ module Media
 				self.send("#{k}=".to_sym, v)
 			end
 			self
+		end
+
+		def cmp_by_hash(hash)
+			self.name.downcase == hash[:name].downcase.strip
 		end
 
 		private

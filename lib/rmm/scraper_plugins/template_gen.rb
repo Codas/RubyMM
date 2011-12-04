@@ -183,7 +183,7 @@ module Scraper
 		#
 		# @param (see #tv_show_items)
 		# @return (see #tv_show_items)
-		def others_items(data)
+		def other_items(data)
 			data.map { |x| x.match OTHERS_PATTERN}.compact.map do |item|
 				item = {
 					:info => {

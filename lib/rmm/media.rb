@@ -18,19 +18,13 @@ module Media
 	end
 	
   class TVShow
-    attr_accessor :rating, :display_name
+    attr_accessor :rating
     attr_reader :episodes, :seasons, :name
 
 		def initialize(params)
 			params.each do |k, v|
 				self.send("#{k}=".to_sym, v)
 			end
-			
-			# clone real name to display name and downcase show name (identifier)
-			# for more reliable comparability
-			self.display_name = self.name.clone
-			self.name = self.name.downcase
-
 			self
 		end
 
@@ -48,7 +42,7 @@ module Media
 		end
 
 		def cmp_by_hash(hash)
-			self.name == hash[:name].downcase
+			self.name.downcase == hash[:name].downcase
 		end
 
 		private
@@ -66,6 +60,8 @@ module Media
 			params.each do |k, v|
 				self.send("#{k}=".to_sym, v)
 			end
+			self.season = self.season.to_i
+			self.episode = self.episode.to_i
 			self
 		end
 	end
@@ -73,22 +69,20 @@ module Media
   class Movie
 		include Ressource
 
-    attr_accessor :display_name, :year, :ressources
+    attr_accessor :year, :ressources
     attr_reader :dl_date, :name
 
 		def initialize(params)
 			params.each do |k, v|
 				self.send("#{k}=".to_sym, v)
 			end
-			# clone real name to display name and downcase show name (identifier)
-			# for more reliable comparability
-			self.display_name = self.name.clone
-			self.name = self.name.downcase
+			self.year = year.to_i
 			self
 		end
 
 		def cmp_by_hash(hash)
-			self.name == hash[:name].downcase and self.year == hash[:year].to_i
+			self.name.downcase == hash[:name].downcase and
+				self.year == hash[:year].to_i
 		end
 
 		private
@@ -98,7 +92,7 @@ module Media
   class Application
 		include Ressource
 
-		attr_accessor :display_name, :ressources
+		attr_accessor :ressources
 		attr_reader :name
 
 
@@ -106,10 +100,6 @@ module Media
 			params.each do |k, v|
 				self.send("#{k}=".to_sym, v)
 			end
-			# clone real name to display name and downcase show name (identifier)
-			# for more reliable comparability
-			self.display_name = self.name.clone
-			self.name = self.name.downcase
 			self
 		end
 
@@ -120,7 +110,7 @@ module Media
   class Game
 		include Ressource
 
-		attr_accessor :display_name, :ressources
+		attr_accessor :ressources
 		attr_reader :name
 
 
@@ -128,15 +118,11 @@ module Media
 			params.each do |k, v|
 				self.send("#{k}=".to_sym, v)
 			end
-			# clone real name to display name and downcase show name (identifier)
-			# for more reliable comparability
-			self.display_name = self.name.clone
-			self.name = self.name.downcase
 			self
 		end
 
 		def cmp_by_hash(hash)
-			self.name == hash[:name]
+			self.name.downcase == hash[:name].downcase
 		end
 		
 		private
@@ -146,7 +132,7 @@ module Media
 	class Other
 		include Ressource
 
-		attr_accessor :display_name, :ressources
+		attr_accessor :ressources
 		attr_reader :name
 
 
@@ -154,15 +140,11 @@ module Media
 			params.each do |k, v|
 				self.send("#{k}=".to_sym, v)
 			end
-			# clone real name to display name and downcase show name (identifier)
-			# for more reliable comparability
-			self.display_name = self.name.clone
-			self.name = self.name.downcase
 			self
 		end
 
 		def cmp_by_hash(hash)
-			self.name == hash[:name]
+			self.name.downcase == hash[:name].downcase
 		end
 		
 		private

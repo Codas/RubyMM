@@ -1,3 +1,6 @@
 .yardoc
 .yardopts
 doc/
+thumps.db
+.DS_Store
+.svn

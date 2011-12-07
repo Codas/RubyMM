@@ -22,53 +22,32 @@ module Scraper
 
     def initialize(data)
       return {} if data.nil?
-
-      # delete DLC code.... takes ages becouse of some more complex regexe
-      # if anyone wants to optimize the regular expressions, feel free to do so :P
-      data = data.gsub DLC_PATTERN, ''
-
-      self.name = data.scan(NAME_PATTERN)[0][0]
+      data = prepare_data(data)
+      fetch_generic!(data)
 
       last_link = ["", ""]
 
-      if data =~ IMDB_PATTERN
-        self.imdb = $1
-      end
-
-      results = data.scan CODE_PATTERN
-      results.each do |code|
+      data.scan(CODE_PATTERN).each do |code|
         resource = { :urls => [], :title => "" }
 
-        if not code[0].nil? and code[0] =~ INFO_PATTERN
-          resource[:title] = $1
-        end
+        resource[:title] = get_title(code)
 
         code[1].scan(LINK_PATTERN).each_with_index do |link, n|
           # skip if this line really contains no information whatsoever
           next if link.compact.empty? and n == 0
           next if link == last_link
-
-          # if an IMDB link was found (Yeah!)
           next if link[1] =~ IMDB_PATTERN
 
-          # link[0] might contain some information, but will most of the time
-          # either be nil or "", so filter before trying to apply a regex to nil
-          if not link[0].nil? and not link[0].empty? and link[0] =~ INFO_PATTERN
-            resource[:title] = $1
-          end
+          resource[:title] = get_title(link)
           
           if last_link.compact.empty?
             add_resource resource
             resource = { :urls => [] }
           end
-          
-          if not link.compact.empty?
-            resource[:urls] << link[1]
-          end
+          resource[:urls] << link[1] unless link.compact.empty?
 
           last_link = link
         end
-
         add_resource resource
       end
     end
@@ -86,6 +65,27 @@ module Scraper
     attr_accessor :imdb, :name
     attr_reader :resources
     attr_writer :scraped_data
+
+    def prepare_data(data)
+      # delete DLC code.... takes ages becouse of some more complex regexe
+      # if anyone wants to optimize the regular expressions, feel free to do so :P
+      data.gsub DLC_PATTERN, ''
+    end
+
+    def get_title(data)
+      if not data[0].nil? and data[0] =~ INFO_PATTERN
+        $1
+      else ""
+      end
+    end
+
+    def fetch_generic!(data)
+      self.name = data.scan(NAME_PATTERN)[0][0]
+
+      if data =~ IMDB_PATTERN
+        self.imdb = $1
+      end
+    end
 
     def add_resource(res_hash)
       if res_hash[:urls].empty?

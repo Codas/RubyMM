@@ -11,7 +11,7 @@ describe Scraper::MediaGenerator do
           :season  => 1,
           :episode => 1
         },
-        :ressource => {
+        :resource => {
           :tags => { 
             :resolution => "720p",
             :source     => "web-dl"
@@ -27,7 +27,7 @@ describe Scraper::MediaGenerator do
           :name => "Movie name 1",
           :year => 2010
         },
-        :ressource => {
+        :resource => {
           :tags => { 
             :resolution => "1080p",
             :source     => "bluray"
@@ -42,7 +42,7 @@ describe Scraper::MediaGenerator do
         :info => {
           :name => "Game 1"
         },
-        :ressource => {
+        :resource => {
           :tags => { 
             :release_group => "skidrow"
           }, 
@@ -56,7 +56,7 @@ describe Scraper::MediaGenerator do
         :info => {
           :name => "Application name 1"
         },
-        :ressource => {
+        :resource => {
           :urls => [ "Application url 1" ]
         }
       }
@@ -67,7 +67,7 @@ describe Scraper::MediaGenerator do
         :info => {
           :name => "Other name 1"
         },
-        :ressource => {
+        :resource => {
           :urls => [ "Other url 1" ]
         }
       }
@@ -89,60 +89,60 @@ describe Scraper::MediaGenerator do
       scraper = Scraper::MediaGeneratorMinImp.new $tv_show
       show = scraper.tv_shows.first
       ep = show.episodes.first
-      res = ep.ressources.first
+      res = ep.resources.first
 
       scraper.tv_shows.size.should == 1
       show.name.should == $tv_show[0][:info][:name]
       show.name.should == $tv_show[0][:info][:name]
       show.episodes.size.should == 1
-      ep.ressources.size.should == 1
+      ep.resources.size.should == 1
       ep.season.should == $tv_show[0][:ep][:season].to_i
       ep.episode.should == $tv_show[0][:ep][:episode].to_i
-      res.urls.should == $tv_show[0][:ressource][:urls]
+      res.urls.should == $tv_show[0][:resource][:urls]
     end
 
     it "crates a new Movie" do
       scraper = Scraper::MediaGeneratorMinImp.new $game
       movie = scraper.movies.first
-      res = movie.ressources.first
+      res = movie.resources.first
 
       scraper.movies.size.should == 1
       movie.name.should == $movie[0][:info][:name]
-      movie.ressources.size.should == 1
-      res.urls.should == $movie[0][:ressource][:urls]
+      movie.resources.size.should == 1
+      res.urls.should == $movie[0][:resource][:urls]
     end
 
     it "creates a new Game" do
       scraper = Scraper::MediaGeneratorMinImp.new $game
       game = scraper.games.first
-      res = game.ressources.first
+      res = game.resources.first
 
       scraper.games.size.should == 1
       game.name.should == $game[0][:info][:name]
-      game.ressources.size.should == 1
-      res.urls.should == $game[0][:ressource][:urls]
+      game.resources.size.should == 1
+      res.urls.should == $game[0][:resource][:urls]
     end
 
     it "creates a new Application" do
       scraper = Scraper::MediaGeneratorMinImp.new $application
       application = scraper.applications.first
-      res = application.ressources.first
+      res = application.resources.first
 
       scraper.applications.size.should == 1
       application.name.should == $application[0][:info][:name]
-      application.ressources.size.should == 1
-      res.urls.should == $application[0][:ressource][:urls]
+      application.resources.size.should == 1
+      res.urls.should == $application[0][:resource][:urls]
     end
 
     it "creates a new Other Object" do
       scraper = Scraper::MediaGeneratorMinImp.new $other
       other = scraper.others.first
-      res = other.ressources.first
+      res = other.resources.first
 
       scraper.others.size.should == 1
       other.name.should == $other[0][:info][:name]
-      other.ressources.size.should == 1
-      res.urls.should == $other[0][:ressource][:urls]
+      other.resources.size.should == 1
+      res.urls.should == $other[0][:resource][:urls]
     end
   end
 
@@ -151,11 +151,11 @@ describe Scraper::MediaGenerator do
       scraper = Scraper::MediaGeneratorMinImp.new $tv_show.push $tv_show[0]
       show = scraper.tv_shows.first
       ep = show.episodes.first
-      res = ep.ressources.first
+      res = ep.resources.first
 
       scraper.tv_shows.size.should == 1
       show.episodes.size.should == 1
-      ep.ressources.size.should == 1
+      ep.resources.size.should == 1
     end
 
     it "does not create duplicate Movies" do
@@ -163,7 +163,7 @@ describe Scraper::MediaGenerator do
       movie = scraper.movies.first
 
       scraper.movies.size.should == 1
-      movie.ressources.size.should == 1
+      movie.resources.size.should == 1
     end
 
     it "does not create duplicate Movies" do
@@ -171,7 +171,7 @@ describe Scraper::MediaGenerator do
       movie = scraper.movies.first
 
       scraper.movies.size.should == 1
-      movie.ressources.size.should == 1
+      movie.resources.size.should == 1
     end
 
     it "does not create duplicate Games" do
@@ -179,7 +179,7 @@ describe Scraper::MediaGenerator do
       game = scraper.games.first
 
       scraper.games.size.should == 1
-      game.ressources.size.should == 1
+      game.resources.size.should == 1
     end
 
     it "does not create duplicate Applications" do
@@ -187,7 +187,7 @@ describe Scraper::MediaGenerator do
       application = scraper.applications.first
 
       scraper.applications.size.should == 1
-      application.ressources.size.should == 1
+      application.resources.size.should == 1
     end
 
     it "does not create duplicate Others Objects" do
@@ -195,14 +195,14 @@ describe Scraper::MediaGenerator do
       other = scraper.others.first
 
       scraper.others.size.should == 1
-      other.ressources.size.should == 1
+      other.resources.size.should == 1
     end
   end
 
-  context "adding ressources" do
-    it "adds a TVShow Ressource" do
+  context "adding resources" do
+    it "adds a TVShow Resource" do
       clone = Marshal.load(Marshal.dump($tv_show.first))
-      clone[:ressource][:urls] = [ "other episode url" ]
+      clone[:resource][:urls] = [ "other episode url" ]
       $tv_show.push clone
 
       scraper = Scraper::MediaGeneratorMinImp.new $tv_show
@@ -211,55 +211,55 @@ describe Scraper::MediaGenerator do
 
       scraper.tv_shows.size.should == 1
       show.episodes.size.should == 1
-      ep.ressources.size.should == 2
+      ep.resources.size.should == 2
     end
     
-    it "adds a Movie Ressource" do
+    it "adds a Movie Resource" do
       clone = Marshal.load(Marshal.dump($movie.first))
-      clone[:ressource][:urls] = ["other movie url"]
+      clone[:resource][:urls] = ["other movie url"]
       $movie.push clone
 
       scraper = Scraper::MediaGeneratorMinImp.new $movie
       movie = scraper.movies.first
 
       scraper.movies.size.should == 1
-      movie.ressources.size.should == 2
+      movie.resources.size.should == 2
     end
     
-    it "adds a Game Ressource" do
+    it "adds a Game Resource" do
       clone = Marshal.load(Marshal.dump($game.first))
-      clone[:ressource][:urls] = [ "other game url"]
+      clone[:resource][:urls] = [ "other game url"]
       $game.push clone
 
       scraper = Scraper::MediaGeneratorMinImp.new $game
       game = scraper.games.first
 
       scraper.games.size.should == 1
-      game.ressources.size.should == 2
+      game.resources.size.should == 2
     end
     
-    it "adds an application Application Ressource" do
+    it "adds an application Application Resource" do
       clone = Marshal.load(Marshal.dump($application.first))
-      clone[:ressource][:urls] = [ "other application url" ]
+      clone[:resource][:urls] = [ "other application url" ]
       $application.push clone
 
       scraper = Scraper::MediaGeneratorMinImp.new $application
       application = scraper.applications.first
 
       scraper.applications.size.should == 1
-      application.ressources.size.should == 2
+      application.resources.size.should == 2
     end
     
-    it "adds an Other Object Ressource" do
+    it "adds an Other Object Resource" do
       clone = Marshal.load(Marshal.dump($other.first))
-      clone[:ressource][:urls] = [ "another url" ]
+      clone[:resource][:urls] = [ "another url" ]
       $other.push clone
 
       scraper = Scraper::MediaGeneratorMinImp.new $other
       other = scraper.others.first
 
       scraper.others.size.should == 1
-      other.ressources.size.should == 2
+      other.resources.size.should == 2
     end
   end
 end

@@ -3,22 +3,22 @@ Dir[File.join(File.dirname(__FILE__), 'media', '*.rb')].each do |file|
 end
 
 module Media
-  module CanAddRessource
-    # adds a ressource (a hash with mandatory url key) to the
-    # list of ressources ONLY if there is not already a ressource
+  module CanAddResource
+    # adds a resource (a hash with mandatory url key) to the
+    # list of resources ONLY if there is not already a resource
     # available with the same url
-    def add_ressource(ressource)
-      self.ressources ||= []
+    def add_resource(resource)
+      self.resources ||= []
 
-      unless self.ressources.index {|x| x.urls == ressource.urls}
-        self.ressources << ressource 
-        ressource
+      unless self.resources.index {|x| x.urls == resource.urls}
+        self.resources << resource 
+        resource
       else nil
       end
     end
   end
 
-  class Ressource
+  class Resource
     attr_accessor :title, :urls, :tags
 
     def initialize(params = {})
@@ -70,9 +70,9 @@ module Media
   end
 
   class Episode
-    include CanAddRessource
+    include CanAddResource
 
-    attr_accessor :season, :episode, :tv_show, :ressources
+    attr_accessor :season, :episode, :tv_show, :resources
     attr_accessor :name, :rating, :runtime, :air_date
     attr_reader :dl_date
 
@@ -87,9 +87,9 @@ module Media
   end
 
   class Movie
-    include CanAddRessource
+    include CanAddResource
 
-    attr_accessor :year, :ressources
+    attr_accessor :year, :resources
     attr_reader :dl_date, :name
 
     def initialize(params)
@@ -110,9 +110,9 @@ module Media
   end
 
   class Application
-    include CanAddRessource
+    include CanAddResource
 
-    attr_accessor :ressources
+    attr_accessor :resources
     attr_reader :name
 
 
@@ -132,9 +132,9 @@ module Media
   end
 
   class Game
-    include CanAddRessource
+    include CanAddResource
 
-    attr_accessor :ressources
+    attr_accessor :resources
     attr_reader :name
 
 
@@ -154,9 +154,9 @@ module Media
   end
   
   class Other
-    include CanAddRessource
+    include CanAddResource
 
-    attr_accessor :ressources
+    attr_accessor :resources
     attr_reader :name
 
 

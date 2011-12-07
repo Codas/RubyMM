@@ -71,10 +71,10 @@ EOF
       scraper = Scraper::CardmanThread.new @tv_show_url
       show = scraper.tv_shows.first
       ep = scraper.tv_shows.first.episodes.first
-      res = ep.ressources.first
+      res = ep.resources.first
 
       show.name.should =~ /^supernatural$/i
-      ep.ressources.size.should == 1
+      ep.resources.size.should == 1
       res.tags[:source].should =~ /hdtv/i
       res.tags[:resolution].should =~ /720p/
       res.urls.first.should =~ /1838135/
@@ -83,12 +83,12 @@ EOF
     it "fetches Movie metadata" do
       scraper = Scraper::CardmanThread.new @movie_url
       movie = scraper.movies.first
-      res = movie.ressources.first
+      res = movie.resources.first
 
       scraper.movies.size.should == 1
       movie.name.should =~ /Cowboys Aliens/i
       movie.year.should == 2011
-      movie.ressources.size.should == 1
+      movie.resources.size.should == 1
       res.tags[:resolution].should == "1080p"
       res.tags[:source].should == "bluray"
       res.urls.first.should =~ /3490600/
@@ -97,11 +97,11 @@ EOF
     it "fetches Game metadata" do
       scraper = Scraper::CardmanThread.new @game_url
       game = scraper.games.first
-      res = game.ressources.first
+      res = game.resources.first
 
       scraper.games.size.should == 1
       game.name.should =~ /lego harry potter years 5 7/i
-      game.ressources.size.should == 1
+      game.resources.size.should == 1
       res.tags[:release_group].should =~ /reloaded/
       res.urls.first.should =~ /3499611/
     end
@@ -109,22 +109,22 @@ EOF
     it "fetches Application metadata" do 
       scraper = Scraper::CardmanThread.new @app_url
       app = scraper.applications.first
-      res = app.ressources.first
+      res = app.resources.first
 
       scraper.applications.size.should == 1
       app.name.should =~ /Acronis True Image home 2012/i
-      app.ressources.size.should == 1
+      app.resources.size.should == 1
       res.urls.first.should =~ /3450796/
     end
 
     it "fetches Other metadata" do
       scraper = Scraper::CardmanThread.new @other_url
       other = scraper.others.first
-      res = other.ressources.first
+      res = other.resources.first
 
       scraper.others.size.should == 1
       other.name.should =~ /National Geographic Engineering connections hong kongs ocean airport/i
-      other.ressources.size.should == 1
+      other.resources.size.should == 1
       res.urls.first.should =~ /3487098/
     end
   end

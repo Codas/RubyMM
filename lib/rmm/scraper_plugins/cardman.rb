@@ -61,7 +61,7 @@ module Scraper
             :season  => item[2].to_i,
             :episode => item[3].to_i
           },
-          :ressource => {
+          :resource => {
             :tags => { 
               :resolution => item[4],
               :source     => item[5]
@@ -79,7 +79,7 @@ module Scraper
           :info => {
             :name => item[1].split('-').map{ |e| e.capitalize }.join(' '),
           },
-          :ressource => {
+          :resource => {
             :tags => { 
               :release_group => item[2]
             }, 
@@ -99,7 +99,7 @@ module Scraper
             :name => item[1].split('-').map{ |e| e.capitalize }.join(' '),
             :year => item[2]
           },
-          :ressource => {
+          :resource => {
             :tags => { 
               :resolution => item[3],
               :source     => source || item[4]
@@ -117,7 +117,7 @@ module Scraper
           :info => {
             :name => item[1].split('-').map{ |e| e.capitalize }.join(' '),
           },
-          :ressource => {
+          :resource => {
             :urls => [PARADOX_PRINT_LINK + item[2]]
           }
         }
@@ -132,7 +132,7 @@ module Scraper
           :info => {
             :name => item[1].split('-').map{ |e| e.capitalize }.join(' '),
           },
-          :ressource => {
+          :resource => {
             :urls => [PARADOX_PRINT_LINK + item[2]]
           }
         }
@@ -141,9 +141,9 @@ module Scraper
 
     class << self
       # Only use this scraper for the special cardman thread on tehparadox.com
-      def generator_for?(ressource)
+      def generator_for?(resource)
         pattern = /http:\/\/tehparadox.com\/forum\/printthread\.php\?t=1439182/
-        !! ressource.url =~ pattern
+        !! resource.url =~ pattern
       end
     end
   end

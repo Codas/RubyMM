@@ -1,5 +1,5 @@
 # module Media
-#   class Ressource
+#   class Resource
 #     attr_accessor :data
 #     attr_reader :url
 

@@ -31,46 +31,46 @@ describe Media::TVShow do
     end
   end
 
-  context "Handling episode ressources" do
-    it "should allow to add valid ressources" do
+  context "Handling episode resources" do
+    it "should allow to add valid resources" do
       ep = Media::Episode.new @episode_hash
-      ressource = {
+      resource = {
         :tags => { 
           :resolution => "720p",
           :source => "web-dl"
         }, 
         :urls => [ "http://tehparadox.com/forum/printthread.php?t=3518613" ]
       }
-      ressource = Media::Ressource.new ressource
+      resource = Media::Resource.new resource
 
-      ep.add_ressource ressource
-      ep.ressources.size.should == 1
-      ep.ressources.first.should == ressource
+      ep.add_resource resource
+      ep.resources.size.should == 1
+      ep.resources.first.should == resource
     end
 
     it "should not add the same resource twice" do
       ep = Media::Episode.new @episode_hash
-      ressource1 = {
+      resource1 = {
         :tags => {
           :resolution => "720p",
           :source => "web-dl"
         }, 
         :urls => [ "http://tehparadox.com/forum/printthread.php?t=3518613" ]
       }
-      ressource1 = Media::Ressource.new ressource1
+      resource1 = Media::Resource.new resource1
 
-      ressource2 = {
+      resource2 = {
         :tags => {
           :resolution => "something weird",
           :source => "VHS (yeah!)"
         }, 
         :urls => [ "http://tehparadox.com/forum/printthread.php?t=3518613" ]
       }
-      ressource2 = Media::Ressource.new ressource2
+      resource2 = Media::Resource.new resource2
 
-      ep.add_ressource ressource1
-      ep.add_ressource(ressource2).should == nil
-      ep.ressources.size.should == 1
+      ep.add_resource resource1
+      ep.add_resource(resource2).should == nil
+      ep.resources.size.should == 1
     end
   end
 end

@@ -26,7 +26,7 @@ module Scraper
     #   [
     #     :info      => {...},
     #     :ep        => {...},
-    #     :ressource => {...}
+    #     :resource => {...}
     #   ]
     #
     # **info**: The info hash use to create the tv_show object
@@ -36,10 +36,10 @@ module Scraper
     # **ep**: The episode hash used to create the episode. See
     #   {Media::Episode#initialize} for more information.
     #
-    # **ressource**: The ressource hash used to create the ressource for the
-    #   newly added TVShow. Can be either an array of ressource hashed or just 
+    # **resource**: The resource hash used to create the resource for the
+    #   newly added TVShow. Can be either an array of resource hashed or just 
     #   one hash. See {Media::Episode#initialize} for more information on
-    #   ressource hashes.
+    #   resource hashes.
     #
     # @param [#prepare_data] data The output of #prepare_data, otherwhise the
     #   data supplied to the constructor
@@ -54,7 +54,7 @@ module Scraper
             :season  => '',
             :episode => ''
           },
-          :ressource => {
+          :resource => {
             :resolution => '',
             :source     => '',
             :url        => '',
@@ -68,17 +68,17 @@ module Scraper
     #   
     #   [
     #     :info      => {...},
-    #     :ressource => {...}
+    #     :resource => {...}
     #   ]
     #
     # **info**: The info hash use to create the object
     #   see {Media::Game#initialize} for a list of available options
     #   note that only one object per unique name will be generated.
     #
-    # **ressource**: The ressource hash used to create the ressource for the
-    #   newly added object. Can be either an array of ressource hashed or just 
+    # **resource**: The resource hash used to create the resource for the
+    #   newly added object. Can be either an array of resource hashed or just 
     #   one hash. See {Media::Game#initialize} for more information on
-    #   ressource hashes.
+    #   resource hashes.
     #
     # @param (see #tv_show_items)
     # @return (see #tv_show_items)
@@ -88,7 +88,7 @@ module Scraper
           :info => {
             :name => ''
           },
-          :ressource => {
+          :resource => {
             :release_group => '',
             :url           => ''
           }
@@ -101,17 +101,17 @@ module Scraper
     #   
     #   [
     #     :info      => {...},
-    #     :ressource => {...}
+    #     :resource => {...}
     #   ]
     #
     # **info**: The info hash use to create the object
     #   see {Media::Movie#initialize} for a list of available options
     #   note that only one object per unique name will be generated.
     #
-    # **ressource**: The ressource hash used to create the ressource for the
-    #   newly added object. Can be either an array of ressource hashed or just 
+    # **resource**: The resource hash used to create the resource for the
+    #   newly added object. Can be either an array of resource hashed or just 
     #   one hash. See {Media::Movie#initialize} for more information on
-    #   ressource hashes.
+    #   resource hashes.
     #
     # @param (see #tv_show_items)
     # @return (see #tv_show_items)
@@ -122,7 +122,7 @@ module Scraper
             :name => '',
             :year => ''
           },
-          :ressource => {
+          :resource => {
             :resolution => '',
             :source     => '',
             :url        => ''
@@ -136,7 +136,7 @@ module Scraper
     #   
     #   [
     #     :info      => {...},
-    #     :ressource => {...}
+    #     :resource => {...}
     #   ]
     #
     #
@@ -144,10 +144,10 @@ module Scraper
     #   see {Media::Application#initialize} for a list of available options
     #   note that only one object per unique name will be generated.
     #
-    # **ressource**: The ressource hash used to create the ressource for the
-    #   newly added object. Can be either an array of ressource hashed or just 
+    # **resource**: The resource hash used to create the resource for the
+    #   newly added object. Can be either an array of resource hashed or just 
     #   one hash. See {Media::Application#initialize} for more information on
-    #   ressource hashes.
+    #   resource hashes.
     #
     # @param (see #tv_show_items)
     # @return (see #tv_show_items)
@@ -157,7 +157,7 @@ module Scraper
           :info => {
             :name => ''
           },
-          :ressource => {
+          :resource => {
             :url => ''
           }
         }
@@ -169,17 +169,17 @@ module Scraper
     #   
     #   [
     #     :info      => {...},
-    #     :ressource => {...}
+    #     :resource => {...}
     #   ]
     #
     # **info**: The info hash use to create the object
     #   see {Media::Others#initialize} for a list of available options
     #   note that only one object per unique name will be generated.
     #
-    # **ressource**: The ressource hash used to create the ressource for the
-    #   newly added object. Can be either an array of ressource hashed or just 
+    # **resource**: The resource hash used to create the resource for the
+    #   newly added object. Can be either an array of resource hashed or just 
     #   one hash. See {Media::Others#initialize} for more information on
-    #   ressource hashes.
+    #   resource hashes.
     #
     # @param (see #tv_show_items)
     # @return (see #tv_show_items)
@@ -189,7 +189,7 @@ module Scraper
           :info => {
             :name => ''
           },
-          :ressource => {
+          :resource => {
             :url => ''
           }
         }
@@ -198,12 +198,12 @@ module Scraper
 
     class << self
       # generator_for? is used to determine weather or not this generator
-      # is used for the supplied ressource (url as string) or not
+      # is used for the supplied resource (url as string) or not
       #
-      # @param [String] ressource the url
+      # @param [String] resource the url
       # @return [Boolean] weather the gerator is capable of handling this
-      #   ressource or not
-      def generator_for?(ressource)
+      #   resource or not
+      def generator_for?(resource)
         false
       end
     end

@@ -11,10 +11,10 @@ module Scraper
       @@link_grabbers
     end
 
-    def link_grabbers_for(ressource)
+    def link_grabbers_for(resource)
       link_grabbers = []
       @@link_grabbers.each do |grabber|
-        link_grabbers << grabber if grabber.grabber_for? ressource
+        link_grabbers << grabber if grabber.grabber_for? resource
       end
       link_grabbers
     end
@@ -47,10 +47,10 @@ module Scraper
       @@media_generators
     end
 
-    def media_generators_for(ressource)
+    def media_generators_for(resource)
       media_generators = []
       @@media_generators.each do |generator|
-        media_generators << generator if generator.generator_for? ressource
+        media_generators << generator if generator.generator_for? resource
       end
       media_generators
     end

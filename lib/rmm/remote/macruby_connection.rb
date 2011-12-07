@@ -1,5 +1,3 @@
-framework 'foundation'
-
 module Remote
   class Connection
     # initializes a new asynchronous connection.

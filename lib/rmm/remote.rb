@@ -5,6 +5,7 @@ require 'remote/connection_error'
 
 # load either foundation framework (macruby) or other frameworks
 if defined?(RUBY_ENGINE) && RUBY_ENGINE == "macruby"
+  framework 'foundation'
   require 'remote/macruby_connection'
 elsif defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby"
   # not yet implemented...

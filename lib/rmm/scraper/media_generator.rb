@@ -23,18 +23,18 @@ module Scraper
         if pos = self.tv_shows.index {|x| x.cmp_by_hash item[:info]}
           # and check if episode already exists
           if ep = self.tv_shows[pos].episode(item[:ep])
-            ep.add_ressource item[:ressource]
+            ep.add_ressource Media::Ressource.new(item[:ressource])
           else
             # if not, add episode to the tv show
             ep = Media::Episode.new item[:ep]
-            ep.add_ressource item[:ressource]
+            ep.add_ressource Media::Ressource.new(item[:ressource])
             self.tv_shows[pos] << ep
           end
         else
           # if no tv_show was found
           show = Media::TVShow.new item[:info]
           ep = Media::Episode.new item[:ep]
-          ep.add_ressource item[:ressource]
+          ep.add_ressource Media::Ressource.new(item[:ressource])
           show << ep
           self.tv_shows << show
         end
@@ -48,10 +48,10 @@ module Scraper
       # Iterate over every TV show that was found
       items.each do |item|
         if pos = self.games.index{|x| x.cmp_by_hash item[:info]}
-          self.games[pos].add_ressource item[:ressource]
+          self.games[pos].add_ressource Media::Ressource.new(item[:ressource])
         else
           game = Media::Game.new item[:info]
-          game.add_ressource item[:ressource]
+          game.add_ressource Media::Ressource.new(item[:ressource])
           self.games << game
         end
       end
@@ -65,10 +65,10 @@ module Scraper
       items.each do |item|
         next if item.empty?
         if pos = self.movies.index{|x| x.cmp_by_hash item[:info]}
-          self.movies[pos].add_ressource item[:ressource]
+          self.movies[pos].add_ressource Media::Ressource.new(item[:ressource])
         else
           movie = Media::Movie.new item[:info]
-          movie.add_ressource item[:ressource]
+          movie.add_ressource Media::Ressource.new(item[:ressource])
           self.movies << movie
         end
       end
@@ -81,10 +81,10 @@ module Scraper
       # Iterate over every TV show that was found
       items.each do |item|
         if pos = self.applications.index{|x| x.cmp_by_hash item[:info]}
-          self.applications[pos].add_ressource item[:ressource]
+          self.applications[pos].add_ressource Media::Ressource.new(item[:ressource])
         else
           application = Media::Application.new item[:info]
-          application.add_ressource item[:ressource]
+          application.add_ressource Media::Ressource.new(item[:ressource])
           self.applications << application
         end
       end
@@ -96,10 +96,10 @@ module Scraper
 
       items.each do |item|
         if pos = self.others.index{|x| x.cmp_by_hash item[:info]}
-          self.others[pos].add_ressource item[:ressource]
+          self.others[pos].add_ressource Media::Ressource.new(item[:ressource])
         else
           other = Media::Other.new item[:info]
-          other.add_ressource item[:ressource]
+          other.add_ressource Media::Ressource.new(item[:ressource])
           self.others << other
         end
       end

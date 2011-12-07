@@ -12,9 +12,11 @@ describe Scraper::MediaGenerator do
           :episode => 1
         },
         :ressource => {
-          :resolution => "720p",
-          :source     => "web-dl",
-          :url        => "Episode url 1"
+          :tags => { 
+            :resolution => "720p",
+            :source     => "web-dl"
+           },
+          :urls        => [ "Episode url 1" ]
         }
       }
     ]
@@ -26,9 +28,11 @@ describe Scraper::MediaGenerator do
           :year => 2010
         },
         :ressource => {
-          :resolution => "1080p",
-          :source     => "bluray",
-          :url        => "Movie url 1"
+          :tags => { 
+            :resolution => "1080p",
+            :source     => "bluray"
+          },
+          :urls        => [ "Movie url 1" ]
         }
       }
     ]
@@ -39,8 +43,10 @@ describe Scraper::MediaGenerator do
           :name => "Game 1"
         },
         :ressource => {
-          :release_group => "skidrow",
-          :url           => "Game url 1"
+          :tags => { 
+            :release_group => "skidrow"
+          }, 
+          :urls           => [ "Game url 1" ]
         }
       }
     ]
@@ -51,7 +57,7 @@ describe Scraper::MediaGenerator do
           :name => "Application name 1"
         },
         :ressource => {
-          :url => "Application url 1"
+          :urls => [ "Application url 1" ]
         }
       }
     ]
@@ -62,7 +68,7 @@ describe Scraper::MediaGenerator do
           :name => "Other name 1"
         },
         :ressource => {
-          :url => "Other url 1"
+          :urls => [ "Other url 1" ]
         }
       }
     ]
@@ -92,7 +98,7 @@ describe Scraper::MediaGenerator do
       ep.ressources.size.should == 1
       ep.season.should == $tv_show[0][:ep][:season].to_i
       ep.episode.should == $tv_show[0][:ep][:episode].to_i
-      res.should == $tv_show[0][:ressource]
+      res.urls.should == $tv_show[0][:ressource][:urls]
     end
 
     it "crates a new Movie" do
@@ -103,7 +109,7 @@ describe Scraper::MediaGenerator do
       scraper.movies.size.should == 1
       movie.name.should == $movie[0][:info][:name]
       movie.ressources.size.should == 1
-      res.should == $movie[0][:ressource]
+      res.urls.should == $movie[0][:ressource][:urls]
     end
 
     it "creates a new Game" do
@@ -114,7 +120,7 @@ describe Scraper::MediaGenerator do
       scraper.games.size.should == 1
       game.name.should == $game[0][:info][:name]
       game.ressources.size.should == 1
-      res.should == $game[0][:ressource]
+      res.urls.should == $game[0][:ressource][:urls]
     end
 
     it "creates a new Application" do
@@ -125,7 +131,7 @@ describe Scraper::MediaGenerator do
       scraper.applications.size.should == 1
       application.name.should == $application[0][:info][:name]
       application.ressources.size.should == 1
-      res.should == $application[0][:ressource]
+      res.urls.should == $application[0][:ressource][:urls]
     end
 
     it "creates a new Other Object" do
@@ -136,7 +142,7 @@ describe Scraper::MediaGenerator do
       scraper.others.size.should == 1
       other.name.should == $other[0][:info][:name]
       other.ressources.size.should == 1
-      res.should == $other[0][:ressource]
+      res.urls.should == $other[0][:ressource][:urls]
     end
   end
 
@@ -196,7 +202,7 @@ describe Scraper::MediaGenerator do
   context "adding ressources" do
     it "adds a TVShow Ressource" do
       clone = Marshal.load(Marshal.dump($tv_show.first))
-      clone[:ressource][:url] = "other episode url"
+      clone[:ressource][:urls] = [ "other episode url" ]
       $tv_show.push clone
 
       scraper = Scraper::MediaGeneratorMinImp.new $tv_show
@@ -210,7 +216,7 @@ describe Scraper::MediaGenerator do
     
     it "adds a Movie Ressource" do
       clone = Marshal.load(Marshal.dump($movie.first))
-      clone[:ressource][:url] = "other movie url"
+      clone[:ressource][:urls] = ["other movie url"]
       $movie.push clone
 
       scraper = Scraper::MediaGeneratorMinImp.new $movie
@@ -222,7 +228,7 @@ describe Scraper::MediaGenerator do
     
     it "adds a Game Ressource" do
       clone = Marshal.load(Marshal.dump($game.first))
-      clone[:ressource][:url] = "other game url"
+      clone[:ressource][:urls] = [ "other game url"]
       $game.push clone
 
       scraper = Scraper::MediaGeneratorMinImp.new $game
@@ -234,10 +240,8 @@ describe Scraper::MediaGenerator do
     
     it "adds an application Application Ressource" do
       clone = Marshal.load(Marshal.dump($application.first))
-      clone[:ressource][:url] = "other application url"
+      clone[:ressource][:urls] = [ "other application url" ]
       $application.push clone
-
-      puts $application
 
       scraper = Scraper::MediaGeneratorMinImp.new $application
       application = scraper.applications.first
@@ -248,7 +252,7 @@ describe Scraper::MediaGenerator do
     
     it "adds an Other Object Ressource" do
       clone = Marshal.load(Marshal.dump($other.first))
-      clone[:ressource][:url] = "another url"
+      clone[:ressource][:urls] = [ "another url" ]
       $other.push clone
 
       scraper = Scraper::MediaGeneratorMinImp.new $other

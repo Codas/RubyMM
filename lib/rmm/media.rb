@@ -3,17 +3,29 @@ Dir[File.join(File.dirname(__FILE__), 'media', '*.rb')].each do |file|
 end
 
 module Media
-  module Ressource
+  module CanAddRessource
     # adds a ressource (a hash with mandatory url key) to the
     # list of ressources ONLY if there is not already a ressource
     # available with the same url
     def add_ressource(ressource)
       self.ressources ||= []
-      unless self.ressources.index {|x| x[:url] == ressource[:url]}
+
+      unless self.ressources.index {|x| x.urls == ressource.urls}
         self.ressources << ressource 
         ressource
       else nil
       end
+    end
+  end
+
+  class Ressource
+    attr_accessor :title, :urls, :tags
+
+    def initialize(params = {})
+      params.each do |k, v|
+        self.send("#{k}=".to_sym, v)
+      end
+      self
     end
   end
   
@@ -58,7 +70,7 @@ module Media
   end
 
   class Episode
-    include Ressource
+    include CanAddRessource
 
     attr_accessor :season, :episode, :tv_show, :ressources
     attr_accessor :name, :rating, :runtime, :air_date
@@ -75,7 +87,7 @@ module Media
   end
 
   class Movie
-    include Ressource
+    include CanAddRessource
 
     attr_accessor :year, :ressources
     attr_reader :dl_date, :name
@@ -98,7 +110,7 @@ module Media
   end
 
   class Application
-    include Ressource
+    include CanAddRessource
 
     attr_accessor :ressources
     attr_reader :name
@@ -120,7 +132,7 @@ module Media
   end
 
   class Game
-    include Ressource
+    include CanAddRessource
 
     attr_accessor :ressources
     attr_reader :name
@@ -142,7 +154,7 @@ module Media
   end
   
   class Other
-    include Ressource
+    include CanAddRessource
 
     attr_accessor :ressources
     attr_reader :name

@@ -62,9 +62,11 @@ module Scraper
             :episode => item[3].to_i
           },
           :ressource => {
-            :resolution => item[4],
-            :source     => item[5],
-            :url        => PARADOX_PRINT_LINK + item[6]
+            :tags => { 
+              :resolution => item[4],
+              :source     => item[5]
+            }, 
+            :urls => [PARADOX_PRINT_LINK + item[6]]
           }
         }
       end
@@ -78,8 +80,10 @@ module Scraper
             :name => item[1].split('-').map{ |e| e.capitalize }.join(' '),
           },
           :ressource => {
-            :release_group => item[2],
-            :url           => PARADOX_PRINT_LINK + item[3]
+            :tags => { 
+              :release_group => item[2]
+            }, 
+            :urls => [PARADOX_PRINT_LINK + item[3]]
           }
         }
       end
@@ -96,9 +100,11 @@ module Scraper
             :year => item[2]
           },
           :ressource => {
-            :resolution => item[3],
-            :source     => source || item[4],
-            :url        => PARADOX_PRINT_LINK + item[5]
+            :tags => { 
+              :resolution => item[3],
+              :source     => source || item[4]
+            }, 
+            :urls => [PARADOX_PRINT_LINK + item[5]]
           }
         }
       end
@@ -112,7 +118,7 @@ module Scraper
             :name => item[1].split('-').map{ |e| e.capitalize }.join(' '),
           },
           :ressource => {
-            :url        => PARADOX_PRINT_LINK + item[2]
+            :urls => [PARADOX_PRINT_LINK + item[2]]
           }
         }
       end
@@ -127,7 +133,7 @@ module Scraper
             :name => item[1].split('-').map{ |e| e.capitalize }.join(' '),
           },
           :ressource => {
-            :url => PARADOX_PRINT_LINK + item[2]
+            :urls => [PARADOX_PRINT_LINK + item[2]]
           }
         }
       end
